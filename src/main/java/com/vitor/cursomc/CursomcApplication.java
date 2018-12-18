@@ -25,6 +25,8 @@ import com.vitor.cursomc.repositories.CidadeRepository;
 import com.vitor.cursomc.repositories.ClienteRepository;
 import com.vitor.cursomc.repositories.EnderecoRepository;
 import com.vitor.cursomc.repositories.EstadoRepository;
+import com.vitor.cursomc.repositories.PagamentoRepository;
+import com.vitor.cursomc.repositories.PedidoRepository;
 import com.vitor.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -47,6 +49,12 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -110,6 +118,9 @@ public class CursomcApplication implements CommandLineRunner {
 		ped2.setPagamento(pagto2);
 		
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 		 
 	}
 }
