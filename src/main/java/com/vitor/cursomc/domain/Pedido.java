@@ -2,6 +2,8 @@ package com.vitor.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,6 +34,9 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn( name="endereco_de_entrega_id" )
 	private Endereco enderecoDeEntrega;
+	
+	private Set<ItemPedido> itens = new HashSet<>();
+	// o tipo Set não deixa repetir itens dentro de uma lista
 	
 	public Pedido( ) { } 
 
@@ -106,6 +111,14 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 	
 }
