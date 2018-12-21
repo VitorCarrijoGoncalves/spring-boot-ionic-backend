@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -32,7 +31,7 @@ public class Produto implements Serializable {
 		// relação muito para muitos = cria uma tabela no meio desta relação, aonde esta tabela recebe a chave estrangeira de produto
 		// e categoria
 		
-		@JsonBackReference
+		@JsonIgnore
 		@ManyToMany
 		@JoinTable(name = "PRODUTO_CATEGORIA", 
 		joinColumns = @JoinColumn(name = "produto_id"), 
