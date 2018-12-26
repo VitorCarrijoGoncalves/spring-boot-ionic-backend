@@ -30,6 +30,7 @@ public class CategoriaResource {
 	// ResponseEntity = uma resposta http do tipo void, mas que não terá corpo
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
+		// @RequestBody = converte o json em objeto java automaticamente
 		obj = service.insert(obj);
 		// uri = url da aplicação
 		// fromCurrentRequest = pega a uri igual la no postman, so que apenas ate o id
