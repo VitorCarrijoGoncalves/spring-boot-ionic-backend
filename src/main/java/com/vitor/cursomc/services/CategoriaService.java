@@ -22,5 +22,10 @@ public class CategoriaService {
 		}
 		return obj.orElse(null);
 	}
+	
+	public Categoria insert(Categoria obj) {
+		obj.setId(null); // o Objeto novo a ser inserido precisa o ter p id nulo
+		return repo.save(obj);
+	}
 
 }
