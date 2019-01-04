@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -68,5 +70,24 @@ public class CategoriaResource {
 		// .collect(Collector.toList()) = eu consigo converter uma lista para outra lista
 		return ResponseEntity.ok().body(listDto);
 	}
+	
+	// categorias/page = endpoint para listar todas as páginas
+	// @RequestParam = anotação para deixar que os parâmetros do método sejam opcionais
+	// defaultValue="0" = valor padrão da page, caso o cliente não a informe
+	// ASC = ascendente
+	@RequestMapping(value="/page", method=RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(value="page", defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
+			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
+			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
+		Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));
+		// situação acima converte cada objeto da lista de page de Categoria para CategoriaDTO
+		return ResponseEntity.ok().body(listDto);
+	}
+	
+	// http://localhost:8090/categorias/page?linesPerPage=3&page=1&direction=DESC
+	// exwmplo de endpoint da paginação, mais os seus parâmetros
 
 }
