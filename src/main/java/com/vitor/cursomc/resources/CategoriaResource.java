@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +36,9 @@ public class CategoriaResource {
 	
 	// ResponseEntity = uma resposta http do tipo void, mas que não terá corpo
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 		// @RequestBody = converte o json em objeto java automaticamente
+		Categoria obj = service.fromDto(objDto);
 		obj = service.insert(obj);
 		// uri = url da aplicação
 		// fromCurrentRequest = pega a uri igual la no postman, so que apenas ate o id
@@ -49,7 +52,8 @@ public class CategoriaResource {
 	
 	//Usando a requisição PUT para fazer alteração de dados 
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
+		Categoria obj = service.fromDto(objDto);
 		obj.setId(id); // setando o id que sera alterado neste metodo
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build(); // noContent() = response com conteudo vazio

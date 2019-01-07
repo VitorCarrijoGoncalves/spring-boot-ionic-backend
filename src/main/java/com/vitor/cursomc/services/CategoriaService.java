@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.vitor.cursomc.domain.Categoria;
+import com.vitor.cursomc.dto.CategoriaDTO;
 import com.vitor.cursomc.repositories.CategoriaRepository;
 import com.vitor.cursomc.services.exception.DataIntegrityException;
 import com.vitor.cursomc.services.exception.ObjectNotFoundException;
@@ -56,6 +57,10 @@ public class CategoriaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	} // método utilizado para fazer a paginação(exibição) das categorias, por página
+	
+	public Categoria fromDto(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
 	
 	
 }
