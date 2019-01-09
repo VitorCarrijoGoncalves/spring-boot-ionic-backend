@@ -1,13 +1,17 @@
 package com.vitor.cursomc.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.vitor.cursomc.domain.Categoria;
 
-public class CategoriaDTO {
+public class CategoriaDTO implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	// CategoriaDTO serve apenas para fazer a exibição no get, de somente o id e nome das categorias, sem exibir os produtos
 	
 	private Integer id;
