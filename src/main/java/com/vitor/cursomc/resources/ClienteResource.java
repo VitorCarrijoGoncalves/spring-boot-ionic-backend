@@ -1,5 +1,6 @@
 package com.vitor.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.vitor.cursomc.domain.Cliente;
 import com.vitor.cursomc.dto.ClienteDTO;
+import com.vitor.cursomc.dto.ClienteNewDTO;
 import com.vitor.cursomc.services.ClienteService;
 
 @RestController
@@ -25,6 +28,22 @@ public class ClienteResource {
 
 	@Autowired
 	private ClienteService service;
+	
+	// ResponseEntity = uma resposta http do tipo void, mas que não terá corpo
+		@RequestMapping(method=RequestMethod.POST)
+		public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+			// @RequestBody = converte o json em objeto java automaticamente
+			Cliente obj = service.fromDto(objDto);
+			obj = service.insert(obj);
+			// uri = url da aplicação
+			// fromCurrentRequest = pega a uri igual la no postman, so que apenas ate o id
+			// buildAndExpand = controi a uri com o id
+			// toUri = converte o objeto para o tipo URI
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+					path("/{id}").buildAndExpand(obj.getId()).toUri();
+			return ResponseEntity.created(uri).build();
+			// ResponseEntity.created = constroi essa uri para min, o build gera a resposta no brownser
+		}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
