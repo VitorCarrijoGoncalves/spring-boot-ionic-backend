@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -22,6 +23,9 @@ public class Cliente implements Serializable {
 	
 	private static final long serialVersionUID = 1L; 
 	
+	// O Cascade permite que eu escolha como a lista de endereços vai comportar diante das açoes de um crud
+	// com o objeto cliente, se eu excluir um cliente, todos os endereços serão excluídos consequentemente
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -30,7 +34,9 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipoCliente;
 	
-	@OneToMany( mappedBy="cliente" )
+	// toda operação que modificar o cliente, eu vou poder modificar isso em cascata lá no endereço
+	
+	@OneToMany( mappedBy="cliente", cascade=CascadeType.ALL )
 	private List<Endereco> enderecos = new ArrayList<>(  );
 	
 	@JsonIgnore
