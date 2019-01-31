@@ -38,5 +38,13 @@ public class ProdutoService {
 		List<Categoria> categorias = categoriaRepository.findAllById(ids);
 		return repo.search(nome, categorias, pageRequest);
 	}
+	
+	public Produto find(Integer id) {
+		Optional<Produto> obj = repo.findById(id);
+		if (obj == null) {
+			throw new ObjectNotFoundException("Objeto não encontrado! Id = " + id + ", Tipo: " + Produto.class.getName());
+		}
+		return obj.orElse(null);
+	}
 
 }

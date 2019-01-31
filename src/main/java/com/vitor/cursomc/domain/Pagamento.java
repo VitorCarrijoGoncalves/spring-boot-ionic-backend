@@ -11,10 +11,14 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.vitor.cursomc.domain.enums.EstadoPagamento;
 
 @Entity
 @Inheritance( strategy	=InheritanceType.JOINED )
+// Esta anotação acima indica herança, ou seja, esta é uma classe pai
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+// esta anotação acima indica que a minha classe pagamneto vai ter um campo adicional chamado @type
 public abstract class Pagamento implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
